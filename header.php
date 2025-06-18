@@ -34,7 +34,17 @@ if(isset($message)){
             <a href="search_page.php" class="fas fa-search"></a>
             <div id="user-btn" class="fas fa-user"></div>
             <?php
-               $select_cart_number = mysqli_query($conn, "SELECT * FROM `cart` WHERE user_id = '$user_id'") or die('query failed');
+               if (isset($_SESSION['user_id'])) {
+                  $user_id = $_SESSION['user_id'];
+                  
+                  // Only query the cart if user is logged in
+                  $select_cart_number = mysqli_query($conn, "SELECT * FROM `cart` WHERE user_id = '$user_id'") or die('query failed');
+                  $cart_rows = mysqli_num_rows($select_cart_number);
+                  echo '(' . $cart_rows . ')';
+               } else {
+                  // Show 0 if user is not logged in
+                  echo '(0)';
+               }
                $cart_rows_number = mysqli_num_rows($select_cart_number); 
             ?>
             <a href="cart.php"> <i class="fas fa-shopping-cart"></i> <span>(<?php echo $cart_rows_number; ?>)</span> </a>
@@ -43,7 +53,7 @@ if(isset($message)){
          <div class="user-box">
             <p><strong>Username:</strong> <span><?php echo $_SESSION['user_name']; ?></span></p>
             <p><strong>Email:</strong> <span><?php echo $_SESSION['user_email']; ?></span></p>
-            <p><strong>Password:</strong> <span>••••••••</span> <a href="update_password.php">Change</a></p>
+            <p><strong>Password:</strong> <span>••••••••</span> <a href="change_password.php">Change</a></p>
             <p><strong>Address:</strong> <span><?php echo $_SESSION['user_address'] ?? 'Not set'; ?></span></p>
             <p><strong>Contact Number:</strong> <span><?php echo $_SESSION['user_number'] ?? 'Not set'; ?></span></p>
             <p><strong>ZIP Code:</strong> <span><?php echo $_SESSION['user_zipcode'] ?? 'Not set'; ?></span></p>
