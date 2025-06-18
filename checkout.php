@@ -103,15 +103,15 @@ if(isset($_POST['order_btn'])){
       <div class="flex">
          <div class="inputBox">
             <span>your name :</span>
-            <input type="text" name="name" required placeholder="enter your name">
+            <input type="text" name="name" required placeholder="enter your name" value="<?php echo $_SESSION['user_name']; ?>">
          </div>
          <div class="inputBox">
             <span>your number :</span>
-            <input type="number" name="number" required placeholder="enter your number">
+            <input type="number" name="number" required placeholder="enter your number" value="<?php echo $_SESSION['user_number']; ?>">
          </div>
          <div class="inputBox">
             <span>your email :</span>
-            <input type="email" name="email" required placeholder="enter your email">
+            <input type="email" name="email" required placeholder="enter your email" value="<?php echo $_SESSION['user_email']; ?>">
          </div>
          <div class="inputBox">
             <span>payment method :</span>
@@ -124,15 +124,15 @@ if(isset($_POST['order_btn'])){
          </div>
          <div class="inputBox">
             <span>zip code :</span>
-            <input type="number" min="0" name="pin_code" required placeholder="e.g. 123456">
+            <input type="number" min="0" name="pin_code" required placeholder="e.g. 123456" value="<?php echo $_SESSION['user_zipcode']; ?>">
          </div>
          <div class="inputBox">
             <span>city :</span>
-            <input type="text" name="city" required placeholder="e.g. Makati">
+            <input type="text" name="city" required placeholder="e.g. Makati" value="<?php echo $_SESSION['user_city']; ?>">
          </div>
          <div class="inputBox">
             <span>address:</span>
-            <input type="text" name="street" required placeholder="e.g. barangay, street, blk & lot">
+            <input type="text" name="street" required placeholder="e.g. barangay, street, blk & lot" value="<?php echo $_SESSION['user_address']; ?>">
          </div>
       </div>
       <input type="submit" value="order now" class="btn" name="order_btn">
