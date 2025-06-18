@@ -13,6 +13,7 @@ if(!isset($admin_id)){
 if(isset($_POST['add_product'])){
 
    $name = mysqli_real_escape_string($conn, $_POST['name']);
+   $category = mysqli_real_escape_string($conn, $_POST['category']);
    $price = $_POST['price'];
    $image = $_FILES['image']['name'];
    $image_size = $_FILES['image']['size'];
@@ -24,7 +25,7 @@ if(isset($_POST['add_product'])){
    if(mysqli_num_rows($select_product_name) > 0){
       $message[] = 'product name already added';
    }else{
-      $add_product_query = mysqli_query($conn, "INSERT INTO `products`(name, price, image) VALUES('$name', '$price', '$image')") or die('query failed');
+      $add_product_query = mysqli_query($conn, "INSERT INTO `products`(name, category, price, image) VALUES('$name', '$category', '$price', '$image')") or die('query failed');
 
       if($add_product_query){
          if($image_size > 2000000){
@@ -53,8 +54,10 @@ if(isset($_POST['update_product'])){
    $update_p_id = $_POST['update_p_id'];
    $update_name = $_POST['update_name'];
    $update_price = $_POST['update_price'];
+   $update_category = $_POST['update_category']; // NEW LINE
 
-   mysqli_query($conn, "UPDATE `products` SET name = '$update_name', price = '$update_price' WHERE id = '$update_p_id'") or die('query failed');
+   mysqli_query($conn, "UPDATE `products` SET name = '$update_name', price = '$update_price', category = '$update_category' WHERE id = '$update_p_id'") or die('query failed');
+   // ↑ Added category update
 
    $update_image = $_FILES['update_image']['name'];
    $update_image_tmp_name = $_FILES['update_image']['tmp_name'];
@@ -106,6 +109,7 @@ if(isset($_POST['update_product'])){
    <form action="" method="post" enctype="multipart/form-data">
       <h3>add product</h3>
       <input type="text" name="name" class="box" placeholder="enter product name" required>
+      <?php include 'categories_dropdown.php'; ?>
       <input type="number" min="0" name="price" class="box" placeholder="enter product price" required>
       <input type="file" name="image" accept="image/jpg, image/jpeg, image/png" class="box" required>
       <input type="submit" value="add product" name="add_product" class="btn">
@@ -129,6 +133,7 @@ if(isset($_POST['update_product'])){
       <div class="box">
          <img src="uploaded_img/<?php echo $fetch_products['image']; ?>" alt="">
          <div class="name"><?php echo $fetch_products['name']; ?></div>
+         <div class="name">Category: <?php echo $fetch_products['category']; ?></div>
          <div class="price">₱<?php echo $fetch_products['price']; ?></div>
          <a href="admin_products.php?update=<?php echo $fetch_products['id']; ?>" class="option-btn">update</a>
          <a href="admin_products.php?delete=<?php echo $fetch_products['id']; ?>" class="delete-btn" onclick="return confirm('delete this product?');">delete</a>

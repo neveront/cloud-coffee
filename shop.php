@@ -57,6 +57,11 @@ if(isset($_POST['add_to_cart'])){
 <section class="products">
 
    <h1 class="title">latest products</h1>
+   <div class="title">
+      <form method="GET" action="" class="filter-form">
+         <?php include 'categories_dropdown.php'; ?>
+      </form>
+   </div>
 
    <div class="box-container">
 

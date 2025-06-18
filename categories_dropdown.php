@@ -1,5 +1,5 @@
 <!-- category_dropdown.php -->
-<select name="category" id="category">
+<select name="category" id="category" class="box">
    <option value="">select catagory</option>
    <option value="Coffee"<?php if(isset($selected_category) && $selected_category == 'Coffee') echo ' selected'; ?>>Coffee</option>
    <option value="Tea"<?php if(isset($selected_category) && $selected_category == 'Tea') echo ' selected'; ?>>Tea</option>
