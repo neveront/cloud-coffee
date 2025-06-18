@@ -1,4 +1,4 @@
-<?php
+<!-- <?php
 if(isset($message)){
    foreach($message as $message){
       echo '
@@ -9,7 +9,7 @@ if(isset($message)){
       ';
    }
 }
-?>
+?> -->
 
 <header class="header">
 
