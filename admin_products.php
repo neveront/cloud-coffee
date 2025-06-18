@@ -54,7 +54,7 @@ if(isset($_POST['update_product'])){
    $update_p_id = $_POST['update_p_id'];
    $update_name = $_POST['update_name'];
    $update_price = $_POST['update_price'];
-   $update_category = $_POST['update_category']; // NEW LINE
+   $update_category = mysqli_real_escape_string($conn, $_POST['update_category']);
 
    mysqli_query($conn, "UPDATE `products` SET name = '$update_name', price = '$update_price', category = '$update_category' WHERE id = '$update_p_id'") or die('query failed');
    // ↑ Added category update
@@ -162,6 +162,19 @@ if(isset($_POST['update_product'])){
       <input type="hidden" name="update_old_image" value="<?php echo $fetch_update['image']; ?>">
       <img src="uploaded_img/<?php echo $fetch_update['image']; ?>" alt="">
       <input type="text" name="update_name" value="<?php echo $fetch_update['name']; ?>" class="box" required placeholder="enter product name">
+      <select name="update_category" class="box" required>
+         <option value="Coffee"<?php if($fetch_update['category'] == 'Coffee') echo ' selected'; ?>>Coffee</option>
+         <option value="Tea"<?php if($fetch_update['category'] == 'Tea') echo ' selected'; ?>>Tea</option>
+         <option value="Fruit Tea"<?php if($fetch_update['category'] == 'Fruit Tea') echo ' selected'; ?>>Fruit Tea</option>
+         <option value="Americano"<?php if($fetch_update['category'] == 'Americano') echo ' selected'; ?>>Americano</option>
+         <option value="Cappuccino"<?php if($fetch_update['category'] == 'Cappuccino') echo ' selected'; ?>>Cappuccino</option>
+         <option value="Latte"<?php if($fetch_update['category'] == 'Latte') echo ' selected'; ?>>Latte</option>
+         <option value="Mocha"<?php if($fetch_update['category'] == 'Mocha') echo ' selected'; ?>>Mocha</option>
+         <option value="Espresso"<?php if($fetch_update['category'] == 'Espresso') echo ' selected'; ?>>Espresso</option>
+         <option value="Frappe"<?php if($fetch_update['category'] == 'Frappe') echo ' selected'; ?>>Frappe</option>
+         <option value="Iced Coffee"<?php if($fetch_update['category'] == 'Iced Coffee') echo ' selected'; ?>>Iced Coffee</option>
+         <option value="Meals"<?php if($fetch_update['category'] == 'Meals') echo ' selected'; ?>>Meals</option>
+      </select>
       <input type="number" name="update_price" value="<?php echo $fetch_update['price']; ?>" min="0" class="box" required placeholder="enter product price">
       <input type="file" class="box" name="update_image" accept="image/jpg, image/jpeg, image/png">
       <input type="submit" value="update" name="update_product" class="btn">
