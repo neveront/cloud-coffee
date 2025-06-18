@@ -19,14 +19,14 @@ if(isset($message)){
          <a href="home.php" class="logo">
          
             Cloud Coffee</a>
-            <img class = "logopic" src="images/logoko2.png">
+            <img class="logopic" src="<?php echo BASE_URL ?>/images/logoko2.png">
 
          <nav class="navbar">
-            <a href="home.php">Home</a>
-            <a href="about.php">About</a>
-            <a href="shop.php">Shop</a>
-            <a href="contact.php">Contact</a>
-            <a href="orders.php">Orders</a>
+            <a href="<?php echo BASE_URL ?>/home.php">Home</a>
+            <a href="<?php echo BASE_URL ?>/about.php">About</a>
+            <a href="<?php echo BASE_URL ?>/shop.php">Shop</a>
+            <a href="<?php echo BASE_URL ?>/contact.php">Contact</a>
+            <a href="<?php echo BASE_URL ?>/orders.php">Orders</a>
          </nav>
 
          <div class="icons">

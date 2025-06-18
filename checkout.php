@@ -1,54 +1,77 @@
 <?php
-
 include 'config.php';
-
 session_start();
 
 $user_id = $_SESSION['user_id'];
 
-if(!isset($user_id)){
+if (!isset($user_id)) {
    header('location:login.php');
 }
 
-if(isset($_POST['order_btn'])){
+$message = [];
+
+if (isset($_POST['order_btn'])) {
 
    $name = mysqli_real_escape_string($conn, $_POST['name']);
    $number = $_POST['number'];
    $email = mysqli_real_escape_string($conn, $_POST['email']);
    $method = mysqli_real_escape_string($conn, $_POST['method']);
-   $address = mysqli_real_escape_string($conn, ''. $_POST['street'].', '. $_POST['city'].', '.' - '. $_POST['pin_code']);
+   $address = mysqli_real_escape_string($conn, $_POST['street'] . ', ' . $_POST['city'] . ' - ' . $_POST['pin_code']);
    $placed_on = date('d-M-Y');
 
    $cart_total = 0;
-   $cart_products[] = '';
+   $cart_products = [];
 
    $cart_query = mysqli_query($conn, "SELECT * FROM `cart` WHERE user_id = '$user_id'") or die('query failed');
-   if(mysqli_num_rows($cart_query) > 0){
-      while($cart_item = mysqli_fetch_assoc($cart_query)){
-         $cart_products[] = $cart_item['name'].' ('.$cart_item['quantity'].') ';
-         $sub_total = ($cart_item['price'] * $cart_item['quantity']);
-         $cart_total += $sub_total;
+
+   if (mysqli_num_rows($cart_query) > 0) {
+      while ($cart_item = mysqli_fetch_assoc($cart_query)) {
+         $cart_products[] = $cart_item['name'] . ' (' . $cart_item['quantity'] . ') ';
+         $cart_total += ($cart_item['price'] * $cart_item['quantity']);
       }
    }
 
-   $total_products = implode(', ',$cart_products);
+   $total_products = implode(', ', $cart_products);
 
    $order_query = mysqli_query($conn, "SELECT * FROM `orders` WHERE name = '$name' AND number = '$number' AND email = '$email' AND method = '$method' AND address = '$address' AND total_products = '$total_products' AND total_price = '$cart_total'") or die('query failed');
 
-   if($cart_total == 0){
-      $message[] = 'your cart is empty';
-   }else{
-      if(mysqli_num_rows($order_query) > 0){
-         $message[] = 'order already placed!'; 
-      }else{
-         mysqli_query($conn, "INSERT INTO `orders`(user_id, name, number, email, method, address, total_products, total_price, placed_on) VALUES('$user_id', '$name', '$number', '$email', '$method', '$address', '$total_products', '$cart_total', '$placed_on')") or die('query failed');
-         $message[] = 'order placed successfully!';
-         mysqli_query($conn, "DELETE FROM `cart` WHERE user_id = '$user_id'") or die('query failed');
+   if ($cart_total == 0) {
+      $message[] = 'Your cart is empty.';
+   } else {
+      if (mysqli_num_rows($order_query) > 0) {
+         $message[] = 'Order already placed!';
+      } else {
+         if ($method === 'paypal') {
+            $_SESSION['order_data'] = [
+               'name' => $name,
+               'number' => $number,
+               'email' => $email,
+               'method' => $method,
+               'address' => $address,
+               'total_products' => $total_products,
+               'total_price' => $cart_total,
+               'placed_on' => $placed_on
+            ];
+
+            ob_start(); // Start output buffer
+            header("Location: paypal/process_payment.php");
+            ob_end_flush();
+            exit();
+         } else {
+            // Insert order for COD
+            $insert_order = mysqli_query($conn, "INSERT INTO `orders`(user_id, name, number, email, method, address, total_products, total_price, placed_on)
+               VALUES('$user_id', '$name', '$number', '$email', '$method', '$address', '$total_products', '$cart_total', '$placed_on')");
+
+            if ($insert_order) {
+               mysqli_query($conn, "DELETE FROM `cart` WHERE user_id = '$user_id'");
+               $message[] = 'Order placed successfully!';
+            } else {
+               $message[] = 'Failed to place order.';
+            }
+         }
       }
    }
-   
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -98,7 +121,7 @@ if(isset($_POST['order_btn'])){
 
 <section class="checkout">
 
-   <form action="" method="post">
+   <form action="checkout.php" method="post">
       <h3>place your order</h3>
       <div class="flex">
          <div class="inputBox">
