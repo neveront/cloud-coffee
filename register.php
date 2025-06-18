@@ -85,7 +85,7 @@ if(isset($message)){
       <input type="text" name="city" placeholder="City" required class="box">
       <select name="user_type" class="box">
          <option value="user">user</option>
-         <option value="admin">admin</option>
+         <!-- <option value="admin">admin</option> -->
       </select>
       <input type="submit" name="submit" value="register now" class="btn">
       <p>already have an account? <a href="login.php">login now</a></p>
