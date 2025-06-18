@@ -130,7 +130,7 @@ if(isset($_POST['add_to_cart'])){
 
    <div class="content">
       <h3>have any questions?</h3>
-      <p>If you have general questions or concerns about Coffee Supply Co., please contact our Customer Contact Center </br>thirdwavecoffee@gmail.com</br>or</p>
+      <p>If you have general questions or concerns about Cloud Coffee, please contact our Customer Contact Center </br>cloud_coffee@gmail.com</br>or</p>
       <a href="contact.php" class="white-btn">directly message us</a>
    </div>
 
