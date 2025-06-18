@@ -41,9 +41,16 @@ if(isset($message)){
          </div>
 
          <div class="user-box">
-            <p>username : <span><?php echo $_SESSION['user_name']; ?></span></p>
-            <p>email : <span><?php echo $_SESSION['user_email']; ?></span></p>
-            <a href="logout.php" class="delete-btn">logout</a>
+            <p><strong>Username:</strong> <span><?php echo $_SESSION['user_name']; ?></span></p>
+            <p><strong>Email:</strong> <span><?php echo $_SESSION['user_email']; ?></span></p>
+            <p><strong>Password:</strong> <span>••••••••</span> <a href="update_password.php">Change</a></p>
+            <p><strong>Address:</strong> <span><?php echo $_SESSION['user_address'] ?? 'Not set'; ?></span></p>
+            <p><strong>Contact Number:</strong> <span><?php echo $_SESSION['user_number'] ?? 'Not set'; ?></span></p>
+            <p><strong>ZIP Code:</strong> <span><?php echo $_SESSION['user_zipcode'] ?? 'Not set'; ?></span></p>
+            <p><strong>City:</strong> <span><?php echo $_SESSION['user_city'] ?? 'Not set'; ?></span></p>
+
+            <a href="logout.php" class="delete-btn">Logout</a>
+            <a href="edit_profile.php" class="option-btn">Edit Profile</a>
          </div>
       </div>
    </div>

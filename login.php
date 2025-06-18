@@ -23,9 +23,13 @@ if(isset($_POST['submit'])){
 
       }elseif($row['user_type'] == 'user'){
 
+         $_SESSION['user_id'] = $row['id'];
          $_SESSION['user_name'] = $row['name'];
          $_SESSION['user_email'] = $row['email'];
-         $_SESSION['user_id'] = $row['id'];
+         $_SESSION['user_address'] = $row['address'];
+         $_SESSION['user_number'] = $row['number'];
+         $_SESSION['user_zipcode'] = $row['zipcode'];
+         $_SESSION['user_city'] = $row['city'];
          header('location:home.php');
 
       }

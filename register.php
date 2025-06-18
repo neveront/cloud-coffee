@@ -2,30 +2,41 @@
 
 include 'config.php';
 
-if(isset($_POST['submit'])){
+if (isset($_POST['submit'])) {
 
    $name = mysqli_real_escape_string($conn, $_POST['name']);
    $email = mysqli_real_escape_string($conn, $_POST['email']);
    $pass = mysqli_real_escape_string($conn, md5($_POST['password']));
    $cpass = mysqli_real_escape_string($conn, md5($_POST['cpassword']));
    $user_type = $_POST['user_type'];
+   $address = mysqli_real_escape_string($conn, $_POST['address']);
+   $number = mysqli_real_escape_string($conn, $_POST['number']);
+   $zipcode = mysqli_real_escape_string($conn, $_POST['zipcode']);
+   $city = mysqli_real_escape_string($conn, $_POST['city']);
 
-   $select_users = mysqli_query($conn, "SELECT * FROM `users` WHERE email = '$email' AND password = '$pass'") or die('query failed');
+   // ✅ First, check if email already exists
+   $select_users = mysqli_query($conn, "SELECT * FROM `users` WHERE email = '$email'") or die('query failed');
 
-   if(mysqli_num_rows($select_users) > 0){
-      $message[] = 'user already exist!';
-   }else{
-      if($pass != $cpass){
-         $message[] = 'confirm password not matched!';
-      }else{
-         mysqli_query($conn, "INSERT INTO `users`(name, email, password, user_type) VALUES('$name', '$email', '$cpass', '$user_type')") or die('query failed');
-         $message[] = 'registered successfully!';
-         header('location:login.php');
+   if (mysqli_num_rows($select_users) > 0) {
+      $message[] = 'User already exists!';
+   } else {
+      if ($pass != $cpass) {
+         $message[] = 'Confirm password not matched!';
+      } else {
+         // ✅ Only insert if all checks pass
+         $insert_query = "INSERT INTO `users`(name, email, password, address, number, zipcode, city, user_type)
+                          VALUES ('$name', '$email', '$cpass', '$address', '$number', '$zipcode', '$city', '$user_type')";
+
+         if (mysqli_query($conn, $insert_query)) {
+            $message[] = 'Registered successfully!';
+            header('location:login.php');
+            exit();
+         } else {
+            $message[] = 'Registration failed!';
+         }
       }
    }
-
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -68,6 +79,10 @@ if(isset($message)){
       <input type="email" name="email" placeholder="enter your email" required class="box">
       <input type="password" name="password" placeholder="enter your password" required class="box">
       <input type="password" name="cpassword" placeholder="confirm your password" required class="box">
+      <input type="text" name="address" placeholder="Address" required class="box">
+      <input type="text" name="number" placeholder="Contact Number" required class="box">
+      <input type="text" name="zipcode" placeholder="ZIP Code" class="box">
+      <input type="text" name="city" placeholder="City" required class="box">
       <select name="user_type" class="box">
          <option value="user">user</option>
          <option value="admin">admin</option>
