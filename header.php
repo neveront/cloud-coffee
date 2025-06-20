@@ -1,5 +1,4 @@
-<!-- this is a test -->
-<!-- <?php
+<!-- <!-- <?php -->
 if(isset($message)){
    foreach($message as $message){
       echo '
