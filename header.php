@@ -1,3 +1,4 @@
+<!-- this is a test -->
 <!-- <?php
 if(isset($message)){
    foreach($message as $message){
