@@ -153,6 +153,11 @@ section{
    color:var(--black);
    text-transform: uppercase;
 }
+.heading h4{
+   font-size: 3rem;
+   color:var(--black);
+   text-transform: uppercase;
+}
 
 .heading p{
    font-size: 2.5rem;

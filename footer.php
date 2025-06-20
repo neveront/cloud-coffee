@@ -12,10 +12,10 @@
 
       <div class="box">
          <h3>extra links</h3>
-         <a href="login.php">login</a>
-         <a href="register.php">register</a>
-         <a href="cart.php">cart</a>
-         <a href="orders.php">orders</a>
+         <a href="<?php echo BASE_URL?>/login.php">login</a>
+         <a href="<?php echo BASE_URL?>/register.php">register</a>
+         <a href="<?php echo BASE_URL?>/cart.php">cart</a>
+         <a href="<?php echo BASE_URL?>/orders.php">orders</a>
       </div>
 
       <div class="box">
